@@ -61,10 +61,18 @@ app.post("/api/v1/signin", async (c) => {
   return c.json({ jwt });
 });
 
-app.get("/api/v1/blog/:id", (c) => {
+app.get("/api/v1/blog/:id", async (c) => {
   const id = c.req.param("id");
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
 
-  return c.text("get blog route");
+  const user = prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+  return c.json(user);
 });
 
 app.post("/api/v1/blog", async (c) => {
@@ -108,4 +116,12 @@ app.put("/api/v1/blog", async (c) => {
   } catch (error) {}
 });
 
+app.get("", (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env?.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  const post = prisma.post.findMany({});
+  return c.json(post);
+});
 export default app;
