@@ -1,4 +1,4 @@
-import { createBlogInput, updateBlogInput } from "@100xdevs/medium-common";
+// import { createBlogInput, updateBlogInput } from "@100xdevs/medium-common";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
@@ -16,34 +16,31 @@ export const blogRouter = new Hono<{
 
 blogRouter.use("/*", async (c, next) => {
   const authHeader = c.req.header("authorization") || "";
+
   try {
-    const user = await verify(authHeader, c.env.JWT_SECRET);
-    if (user) {
-      c.set("userId", user.id);
+    const user = (await verify(authHeader, c.env.JWT_SECRET)) as { id: number };
+
+    if (user && typeof user.id === "number") {
+      c.set("userId", user.id.toString());
       await next();
     } else {
       c.status(403);
-      return c.json({
-        message: "You are not logged in",
-      });
+      return c.json({ message: "You are not logged in" });
     }
   } catch (e) {
     c.status(403);
-    return c.json({
-      message: "You are not logged in",
-    });
+    return c.json({ message: "You are not logged in" });
   }
 });
-
 blogRouter.post("/", async (c) => {
   const body = await c.req.json();
-  const { success } = createBlogInput.safeParse(body);
-  if (!success) {
-    c.status(411);
-    return c.json({
-      message: "Inputs not correct",
-    });
-  }
+  //   const { success } = createBlogInput.safeParse(body);
+  //   if (!success) {
+  //     c.status(411);
+  //     return c.json({
+  //       message: "Inputs not correct",
+  //     });
+  //   }
 
   const authorId = c.get("userId");
   const prisma = new PrismaClient({
@@ -65,13 +62,13 @@ blogRouter.post("/", async (c) => {
 
 blogRouter.put("/", async (c) => {
   const body = await c.req.json();
-  const { success } = updateBlogInput.safeParse(body);
-  if (!success) {
-    c.status(411);
-    return c.json({
-      message: "Inputs not correct",
-    });
-  }
+  // //   const { success } = updateBlogInput.safeParse(body);
+  // //   if (!success) {
+  // //     c.status(411);
+  // //     return c.json({
+  // //       message: "Inputs not correct",
+  // //     });
+  //   }
 
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
