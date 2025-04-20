@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { ChangeEvent } from "react";
 import { useState } from "react";
 import { SignupInput } from "commonharsh";
-import Signin from "../pages/Signin";
 
 const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const [postInput, setPostInput] = useState<SignupInput>({
@@ -15,7 +14,9 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
       <div className=" flex justify-center">
         <div>
           <div>
-            <div className=" text-4xl font-bold ">Create a account</div>
+            <div className=" text-4xl font-bold ">
+              {type === "signin" ? "Create a Account" : "Login your Account"}
+            </div>
             <div className="text-slate-400">
               {type === "signin"
                 ? "Dont have a account ?"
