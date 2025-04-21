@@ -22,7 +22,9 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
       const jwt = response.data;
       localStorage.setItem("token", jwt);
       navigate("/blogs");
-    } catch (err) {}
+    } catch (err) {
+      alert("ERROR WHILE SIGNING UP");
+    }
   }
   return (
     <div className="h-screen flex justify-center flex-col">
