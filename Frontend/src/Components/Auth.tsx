@@ -12,6 +12,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
     name: "",
   });
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   async function sendRequest() {
     try {
@@ -23,7 +24,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
       localStorage.setItem("token", jwt);
       navigate("/blogs");
     } catch (err) {
-      alert("ERROR WHILE SIGNING UP");
+      setError("Invalid username or password");
     }
   }
   return (
@@ -82,6 +83,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
                 });
               }}
             />
+            {error && <div className="text-red-500 pt-2">{error}</div>}
             <button
               onClick={sendRequest}
               type="button"
