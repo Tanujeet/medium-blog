@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { SignupInput } from "commonharsh";
 import LabelledInput from "./LabelledInput";
+import axios from "axios";
+import { BACKEND_URL } from "../Config";
 
 const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const [postInputs, setPostInputs] = useState<SignupInput>({
@@ -9,8 +11,19 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
     password: "",
     name: "",
   });
+  const navigate = useNavigate();
 
-  async function sendRequest() {}
+  async function sendRequest() {
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" : "signin"}`,
+        postInputs
+      );
+      const jwt = response.data;
+      localStorage.setItem("token", jwt);
+      navigate("/blogs");
+    } catch (err) {}
+  }
   return (
     <div className="h-screen flex justify-center flex-col">
       <div className="flex justify-center">
@@ -37,7 +50,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
             {type === "signup" ? (
               <LabelledInput
                 label="Name"
-                placeholder="Harkirat Singh..."
+                placeholder="Enter Your Name"
                 onChange={(e) => {
                   setPostInputs({
                     ...postInputs,
@@ -48,7 +61,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
             ) : null}
             <LabelledInput
               label="Username"
-              placeholder="harkirat@gmail.com"
+              placeholder="me@example.com"
               onChange={(e) => {
                 setPostInputs({
                   ...postInputs,
@@ -59,7 +72,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
             <LabelledInput
               label="Password"
               type={"password"}
-              placeholder="123456"
+              placeholder=""
               onChange={(e) => {
                 setPostInputs({
                   ...postInputs,
