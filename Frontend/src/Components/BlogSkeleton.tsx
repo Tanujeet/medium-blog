@@ -4,8 +4,7 @@ import { FullBlog } from "./FullBlog";
 import { Appbar } from "./Appbar";
 import { Spinner } from "./Spinner";
 
-// atomFamilies/selectorFamilies
-export const Blog = () => {
+export const BlogSkeleton = () => {
   const { id } = useParams();
   const { loading, blog } = useBlog({
     id: id || "",
