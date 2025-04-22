@@ -23,10 +23,15 @@ export const useBlog = ({ id }: { id: string }) => {
         },
       })
       .then((response) => {
-        setBlog(response.data.blogs);
+        // Corrected the response property to `response.data.blog`
+        setBlog(response.data.blog);
         setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching blog:", error);
+        setLoading(false); // Make sure loading is stopped in case of error
       });
-  }, []);
+  }, [id]); // Added `id` as a dependency
 
   return {
     loading,
@@ -48,6 +53,10 @@ export const useBlogs = () => {
       .then((response) => {
         setBlogs(response.data.blogs);
         setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching blogs:", error);
+        setLoading(false); // Make sure loading is stopped in case of error
       });
   }, []);
 
