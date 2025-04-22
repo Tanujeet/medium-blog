@@ -13,16 +13,15 @@ const Blogs = () => {
       <Appbar />
       <div className="flex justify-center">
         <div className="max-w-xl">
-          <BlogCard
-            authorName={"Harsh"}
-            title={
-              "How an ugly single page website makes $5000 a month without affiliate marketing"
-            }
-            content={
-              "How an ugly single page website makes $5000 a month without affiliate marketing"
-            }
-            publishedDate={"21 April 2025"}
-          />
+          {blogs.map((blog) => (
+            <BlogCard
+              id={blog.id}
+              authorName={blog.author.name || ""}
+              title={blog.title}
+              content={blog.content}
+              publishedDate={"21 April 2025"}
+            />
+          ))}
         </div>
       </div>
     </div>
