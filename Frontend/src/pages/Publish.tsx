@@ -43,6 +43,7 @@ export const Publish = () => {
                   },
                 }
               );
+              console.log("Post ID: ", response.data.id);
               navigate(`/blog/${response.data.id}`);
             }}
             type="submit"
