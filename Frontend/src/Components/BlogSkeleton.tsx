@@ -1,8 +1,8 @@
-import { Appbar } from "../Components/Appbar";
-import { FullBlog } from "../Components/FullBlog";
-import { Spinner } from "../Components/Spinner";
 import { useBlog } from "../hooks";
 import { useParams } from "react-router-dom";
+import { FullBlog } from "./FullBlog";
+import { Appbar } from "./Appbar";
+import { Spinner } from "./Spinner";
 
 // atomFamilies/selectorFamilies
 export const Blog = () => {
